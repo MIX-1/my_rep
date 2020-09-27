@@ -1,7 +1,4 @@
-// Copyright 2018 Your Name <your_email>
+//
+// Created by alesandr on 24.09.2020.
+//
 
-#include <gtest/gtest.h>
-
-TEST(Example, EmptyTest) {
-    EXPECT_TRUE(true);
-}
