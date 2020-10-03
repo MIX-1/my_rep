@@ -33,7 +33,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 
 add_executable(lab-01-parser
 # TODO: enum your files and delete this comment
- ${CMAKE_CURRENT_SOURCE_DIR}/sources/myFile.cpp)
+ ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp)
 #sources/source.cpp
 
 target_include_directories(lab-01-parser

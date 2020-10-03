@@ -13,12 +13,6 @@
       "debt": "C++"
     },
     {
-      "name": "Sobolev Alexey",
-      "group": 1.5,
-      "avg": 4,
-      "debt": "C++"
-    },
-    {
       "name": "Pertov Nikita",
       "group": "IU8-31",
       "avg": 3.33,
@@ -30,6 +24,6 @@
     }
   ],
   "_meta": {
-    "count": 4
+    "count": 3
   }
 }
