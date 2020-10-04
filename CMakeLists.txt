@@ -21,42 +21,44 @@ HunterGate(
 
 
 project(lab-01-parser)
+string(APPEND CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/GCC-9FIX.cmake")
 string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
 string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
 string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 
-#hunter_add_package(GTest)
-#find_package(GTest CONFIG REQUIRED)
+hunter_add_package(GTest)
+find_package(GTest CONFIG REQUIRED)
 
 hunter_add_package(nlohmann_json)
 find_package(nlohmann_json CONFIG REQUIRED)
 
-add_executable(lab-01-parser
-# TODO: enum your files and delete this comment
- ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp)
-#sources/source.cpp
+add_library(lab-01-parser STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
+        )
+
+add_executable(tests
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
+        )
 
 target_include_directories(lab-01-parser
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         )
-#target_include_directories(tests
-#  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-#)
+target_include_directories(tests
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+        )
 
-#target_link_libraries(tests GTest::main lab-01-parser)
-target_link_libraries(lab-01-parser PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(tests GTest::main GTest::gtest)
+target_link_libraries(lab-01-parser nlohmann_json::nlohmann_json)
 
-#enable_testing()
-#add_test(NAME unit_tests COMMAND tests)
+enable_testing()
+add_test(NAME unit_tests COMMAND tests)
 
 if(BUILD_COVERAGE)
   set(ENABLE_COVERAGE ON CACHE BOOL "Enable coverage build." FORCE)
   list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
   find_package(codecov)
-
   add_coverage(lab-01-parser)
-  add_coverage(nlohmann_json)
- # add_coverage(tests)
- # list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/tests/*'")
+  add_coverage(tests)
+  list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/tests/*'")
   coverage_evaluate()
 endif()

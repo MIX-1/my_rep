@@ -1,4 +1,7 @@
-//
-// Created by alesandr on 24.09.2020.
-//
+// Copyright 2020 MIX-1 <daniloniL1@yandex.ru>
 
+#include <gtest/gtest.h>
+
+TEST(Example, EmptyTest) {
+    EXPECT_TRUE(true);
+}

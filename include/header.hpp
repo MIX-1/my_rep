@@ -24,6 +24,7 @@ struct Students {
     any Avg;
     any Debt;
 };
+
 class JsonParser {
 private:
     string jsonPath;
@@ -37,6 +38,7 @@ private:
     int dNum = 0;
     int dArNum = 0;
     int dMax =6;
+
 public:
     void open();
 
