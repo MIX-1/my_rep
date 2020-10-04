@@ -133,3 +133,10 @@ void JsonParser::table_print() {
     cout << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
     cout << "|\n" << std :: setfill(' ');
 }
+int main(){
+    JsonParser j;
+    j.open();
+    j.maxLength();
+    j.enter();
+    j.table_print();
+}
