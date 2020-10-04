@@ -102,7 +102,7 @@ void JsonParser::table_print() {
     cout << std :: left << "| " << setw(nMax) << "name" << " | " << setw(gMax);
     cout << "group"<< " |" << setw(4) << "avg"<< " | " << setw(dMax);
     cout << "debt" << " |\n";
-    for (int i=0; i < itemsNum; i++){
+    for (int i=0; i < itemsNum; i++) {
         cout << setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
         cout << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4) << "|\n";
         cout << setfill(' ');
