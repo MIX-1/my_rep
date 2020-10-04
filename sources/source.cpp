@@ -65,8 +65,9 @@ void JsonParser::enter() {
             int gI;
             vec[i]["group"].get_to(gI);
             students[i].Group = static_cast<int>(gI);
-        } else
+        } else {
             throw runtime_error("Неверный тип данных в поле group.");
+        }
         bool aB1 = vec.at(i)["avg"].is_number_float();
         bool aB2 = vec.at(i)["avg"].is_number_integer();
         bool aB = aB1 || aB2;
@@ -78,18 +79,20 @@ void JsonParser::enter() {
             string aS;
             vec[i]["avg"].get_to(aS);
             students[i].Avg = string{aS};
-        } else
+        } else {
             throw runtime_error("Неверный тип данных в поле avg.");
+        }
         if (vec.at(i)["debt"].is_string()){
             string dS;
             vec[i]["debt"].get_to(dS);
             students[i].Debt = string{dS};
-        } else if (vec.at(i)["debt"].is_null())
+        } else if (vec.at(i)["debt"].is_null()) {
             students[i].Debt = string{"null"};
-        else if (vec.at(i)["debt"].is_array())
+        } else if (vec.at(i)["debt"].is_array()) {
             dNum = vec.at(i)["debt"].size();
-        else
+        } else {
             throw runtime_error("Неверный тип данных в поле debt.");
+        }
     }
 }
 void JsonParser::table_print() {
@@ -106,16 +109,16 @@ void JsonParser::table_print() {
         cout << std :: left << "| "<< setw(nMax) << students[i].Name << " | ";
         if (vec.at(i)["group"].is_string())
             cout << setw(gMax) << any_cast<string>(students[i].Group) << " |";
-        else if (vec.at(i)["group"].is_number_integer())
+        else if (vec.at(i)["group"].is_number_integer()) {
             cout << setw(gMax) << any_cast<int>(students[i].Group) << " |";
+        }
         bool aB1 = vec.at(i)["avg"].is_number_float();
         bool aB2 = vec.at(i)["avg"].is_number_integer();
         bool aB = aB1 || aB2;
         if (aB){
             cout << std ::  setprecision(3) << setw(4);
             cout << any_cast<double>(students[i].Avg) << " | ";
-        }
-        else if (vec.at(i)["avg"].is_string()){
+        } else if (vec.at(i)["avg"].is_string()){
             cout << std ::  setprecision(3) << setw(4);
             cout << any_cast<string>(students[i].Avg) << " | ";
         }

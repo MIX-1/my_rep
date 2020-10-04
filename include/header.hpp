@@ -3,6 +3,7 @@
 #ifndef INCLUDE_HEADER_HPP_
 #define INCLUDE_HEADER_HPP_
 #include <any>
+#include <string>
 #include "iostream"
 #include <nlohmann/json.hpp>
 #include <vector>
@@ -37,7 +38,7 @@ private:
     int gMax = 5;
     int dNum = 0;
     int dArNum = 0;
-    int dMax =6;
+    int dMax = 6;
 
 public:
     void open();
