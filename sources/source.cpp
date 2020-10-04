@@ -61,7 +61,7 @@ void JsonParser::enter() {
             string gS;
             vec[i]["group"].get_to(gS);
             students[i].Group = string{gS};
-        } else if (vec.at(i)["group"].is_number_integer()){
+        } else if (vec.at(i)["group"].is_number_integer()) {
             int gI;
             vec[i]["group"].get_to(gI);
             students[i].Group = static_cast<int>(gI);
@@ -82,7 +82,7 @@ void JsonParser::enter() {
         } else {
             throw runtime_error("Неверный тип данных в поле avg.");
         }
-        if (vec.at(i)["debt"].is_string()){
+        if (vec.at(i)["debt"].is_string()) {
             string dS;
             vec[i]["debt"].get_to(dS);
             students[i].Debt = string{dS};
@@ -107,9 +107,9 @@ void JsonParser::table_print() {
         cout << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4) << "|\n";
         cout << setfill(' ');
         cout << std :: left << "| "<< setw(nMax) << students[i].Name << " | ";
-        if (vec.at(i)["group"].is_string())
+        if (vec.at(i)["group"].is_string()) {
             cout << setw(gMax) << any_cast<string>(students[i].Group) << " |";
-        else if (vec.at(i)["group"].is_number_integer()) {
+        } else if (vec.at(i)["group"].is_number_integer()) {
             cout << setw(gMax) << any_cast<int>(students[i].Group) << " |";
         }
         bool aB1 = vec.at(i)["avg"].is_number_float();
@@ -118,13 +118,13 @@ void JsonParser::table_print() {
         if (aB){
             cout << std ::  setprecision(3) << setw(4);
             cout << any_cast<double>(students[i].Avg) << " | ";
-        } else if (vec.at(i)["avg"].is_string()){
+        } else if (vec.at(i)["avg"].is_string()) {
             cout << std ::  setprecision(3) << setw(4);
             cout << any_cast<string>(students[i].Avg) << " | ";
         }
-        if (vec.at(i)["debt"].is_string() || vec.at(i)["debt"].is_null())
+        if (vec.at(i)["debt"].is_string() || vec.at(i)["debt"].is_null()) {
             cout << setw(dMax) << any_cast<string>(students[i].Debt) << " |\n";
-        else if (vec.at(i)["debt"].is_array()){
+        } else if (vec.at(i)["debt"].is_array()) {
             cout << setw(dArNum) << dNum << setw(dMax-dArNum);
             cout << " items" << " |\n";
         }
