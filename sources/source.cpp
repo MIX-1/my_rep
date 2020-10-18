@@ -2,24 +2,45 @@
 
 #include <header.hpp>
 
-void JsonParser::open() {
-    cout << "Введите путь к json файлу\n";
-    std :: cin >> jsonPath;
+bool JsonParser::file_opening(const string& jsonPath) {
     file.open(jsonPath);
-    if (!file)
-        throw runtime_error{"Не открывается json файл по адресу: " + jsonPath};
-    else
+    if (!file){
+        throw runtime_error{"Не удалось открыть json файл"};
+    } else {
         cout << "Json файл по адресу " + jsonPath + " открыт удачно\n";
-    file >> data;
-    if (data.empty())
+        file >> data;
+        return true;
+    }
+}
+void JsonParser::parse_string_to_json(const string& string_test) {
+    data = json::parse(string_test);
+}
+bool JsonParser::file_emptynis() {
+    if (data.empty()){
         throw runtime_error{"Ваш json файл оказался пустым"};
-    if (!data["items"].is_array())
+    } else {
+        return true;
+    }
+}
+bool JsonParser::file_arrayning() {
+    if (!data["items"].is_array()) {
         throw runtime_error{"Поле items не является массивом"};
+    } else {
+        return true;
+    }
+}
+void JsonParser::reserving_vector_items() {
     itemsNum = data["_meta"]["count"];
     vec.reserve(static_cast<int>(itemsNum));
     data["items"].get_to(vec);
-    if (itemsNum != static_cast<int>(vec.size()))
+}
+bool JsonParser::file_equalityning() {
+    reserving_vector_items();
+    if (itemsNum != static_cast<int>(vec.size())){
         throw runtime_error{"Данные в _meta не равны длинне массива items"};
+    } else {
+        return true;
+    }
 }
 void JsonParser::maxLength() {
     for (int i=0; i < itemsNum; i++){
@@ -53,7 +74,16 @@ void JsonParser::maxLength() {
         }
     }
 }
-void JsonParser::enter() {
+int JsonParser::get_nMax() const {
+    return nMax;
+}
+int JsonParser::get_gMax() const {
+    return gMax;
+}
+int JsonParser::get_dMax() const {
+    return dMax;
+}
+bool JsonParser::enter() {
     students.reserve(static_cast<int>(itemsNum));
     for (int i=0; i < itemsNum; i++){
         vec[i]["name"].get_to(students[i].Name);
@@ -94,23 +124,37 @@ void JsonParser::enter() {
             throw runtime_error("Неверный тип данных в поле debt.");
         }
     }
+    return true;
 }
 void JsonParser::table_print() {
+    std :: stringstream tab;
     cout << setfill('-') << std :: right << "|" << setw(nMax+3);
     cout <<"|" << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
     cout << "|\n" << setfill(' ');
+    tab << setfill('-') << std :: right << "|" << setw(nMax+3);
+    tab <<"|" << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
+    tab << "|\n" << setfill(' ');
     cout << std :: left << "| " << setw(nMax) << "name" << " | " << setw(gMax);
     cout << "group"<< " |" << setw(4) << "avg"<< " | " << setw(dMax);
     cout << "debt" << " |\n";
+    tab << std :: left << "| " << setw(nMax) << "name" << " | " << setw(gMax);
+    tab << "group"<< " |" << setw(4) << "avg"<< " | " << setw(dMax);
+    tab << "debt" << " |\n";
     for (int i=0; i < itemsNum; i++) {
         cout << setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
         cout << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4) << "|\n";
         cout << setfill(' ');
         cout << std :: left << "| "<< setw(nMax) << students[i].Name << " | ";
+        tab << setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
+        tab << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4) << "|\n";
+        tab << setfill(' ');
+        tab << std :: left << "| "<< setw(nMax) << students[i].Name << " | ";
         if (vec.at(i)["group"].is_string()) {
             cout << setw(gMax) << any_cast<string>(students[i].Group) << " |";
+            tab << setw(gMax) << any_cast<string>(students[i].Group) << " |";
         } else if (vec.at(i)["group"].is_number_integer()) {
             cout << setw(gMax) << any_cast<int>(students[i].Group) << " |";
+            tab << setw(gMax) << any_cast<int>(students[i].Group) << " |";
         }
         bool aB1 = vec.at(i)["avg"].is_number_float();
         bool aB2 = vec.at(i)["avg"].is_number_integer();
@@ -118,25 +162,44 @@ void JsonParser::table_print() {
         if (aB){
             cout << std ::  setprecision(3) << setw(4);
             cout << any_cast<double>(students[i].Avg) << " | ";
+            tab << std ::  setprecision(3) << setw(4);
+            tab << any_cast<double>(students[i].Avg) << " | ";
         } else if (vec.at(i)["avg"].is_string()) {
             cout << std ::  setprecision(3) << setw(4);
             cout << any_cast<string>(students[i].Avg) << " | ";
+            tab << std ::  setprecision(3) << setw(4);
+            tab << any_cast<string>(students[i].Avg) << " | ";
         }
         if (vec.at(i)["debt"].is_string() || vec.at(i)["debt"].is_null()) {
             cout << setw(dMax) << any_cast<string>(students[i].Debt) << " |\n";
+            tab << setw(dMax) << any_cast<string>(students[i].Debt) << " |\n";
         } else if (vec.at(i)["debt"].is_array()) {
             cout << setw(dArNum) << dNum << setw(dMax-dArNum);
             cout << " items" << " |\n";
+            tab << setw(dArNum) << dNum << setw(dMax-dArNum);
+            tab << " items" << " |\n";
         }
     }
     cout << std :: setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
     cout << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
     cout << "|\n" << std :: setfill(' ');
+    tab << std :: setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
+    tab << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
+    tab << "|\n" << std :: setfill(' ');
+    table_final << tab.str() << std :: endl;
 }
-int main(){
-    JsonParser j;
-    j.open();
-    j.maxLength();
-    j.enter();
-    j.table_print();
+string JsonParser::get_table_final() {
+    return table_final.str();
 }
+//
+//int main(){
+//    JsonParser j;
+//    string jsonPath = "../sources/Students.json";
+//    j.file_opening(jsonPath);
+//    j.file_emptynis();
+//    j.file_arrayning();
+//    j.file_equalityning();
+//    j.maxLength();
+//    j.enter();
+//    j.table_print();
+//}

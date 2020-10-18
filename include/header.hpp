@@ -7,7 +7,6 @@
 #include "iostream"
 #include <nlohmann/json.hpp>
 #include <vector>
-#include <variant>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
@@ -19,6 +18,7 @@ using std :: setw;
 using std :: runtime_error;
 using std :: setfill;
 using std :: any_cast;
+
 struct Students {
     string Name;
     any Group;
@@ -28,7 +28,6 @@ struct Students {
 
 class JsonParser {
 private:
-    string jsonPath;
     std::ifstream file;
     json data;
     int itemsNum = 0;
@@ -39,15 +38,33 @@ private:
     int dNum = 0;
     int dArNum = 0;
     int dMax = 6;
+    std :: stringstream table_final;
 
 public:
-    void open();
+    bool file_opening(const string& jsonPath);
+
+    void parse_string_to_json(const string& string_test);
+
+    bool file_emptynis();
+
+    bool file_arrayning();
+
+    bool file_equalityning();
+
+    void reserving_vector_items();
 
     void maxLength();
 
-    void enter();
+    int get_nMax() const;
+
+    int get_gMax() const;
+
+    int get_dMax() const;
+
+    bool enter();
 
     void table_print();
-};
 
+    string get_table_final();
+};
 #endif // INCLUDE_HEADER_HPP_
