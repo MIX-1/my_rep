@@ -31,7 +31,7 @@ bool JsonParser::file_arrayning() {
 }
 void JsonParser::reserving_vector_items() {
     itemsNum = data["_meta"]["count"];
-    vec.reserve(static_cast<int>(itemsNum));
+//    vec.reserve(static_cast<int>(itemsNum));
     data["items"].get_to(vec);
 }
 bool JsonParser::file_equalityning() {
@@ -85,7 +85,7 @@ int JsonParser::get_dMax() const {
 }
 bool JsonParser::enter() {
     students.reserve(static_cast<int>(itemsNum));
-    for (int i=0; i < itemsNum; i++){
+    for (int i=0; i != itemsNum; i++){
         vec[i]["name"].get_to(students[i].Name);
         if (vec.at(i)["group"].is_string()){
             string gS;
@@ -188,10 +188,9 @@ void JsonParser::table_print() {
     tab << "|\n" << std :: setfill(' ');
     table_final << tab.str() << std :: endl;
 }
-string JsonParser::get_table_final() {
-    return table_final.str();
-}
-//
+//string JsonParser::get_table_final() {
+//    return table_final.str();
+//}
 //int main(){
 //    JsonParser j;
 //    string jsonPath = "../sources/Students.json";

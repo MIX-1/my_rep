@@ -65,6 +65,6 @@ public:
 
     void table_print();
 
-    string get_table_final();
+//    string get_table_final();
 };
 #endif // INCLUDE_HEADER_HPP_
