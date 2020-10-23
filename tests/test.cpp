@@ -245,3 +245,94 @@ R"({
     EXPECT_EQ(dMax_test, 7);
 }
 //Struct
+TEST(Check_Enter, Enter_to_struct) {
+    string string_test_true =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": "C++"
+    },
+    {
+      "name": "Pertov Nikita",
+      "group": "IU8-31",
+      "avg": 3.33,
+      "debt": [
+        "C++",
+        "Linux",
+        "Network"
+      ]
+    }
+  ],
+  "_meta": {
+    "count": 3
+  }
+})";
+    JsonParser j;
+    j.parse_string_to_json(string_test_true);
+    j.reserving_vector_items();
+    j.maxLength();
+    bool statement = j.enter();
+    EXPECT_TRUE(statement);
+}
+TEST(Check_Work_Of_Print_Table, Check_Printable_Table) {
+    string string_test_true =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": "C++"
+    },
+    {
+      "name": "Pertov Nikita",
+      "group": "IU8-31",
+      "avg": 3.33,
+      "debt": [
+        "C++",
+        "Linux",
+        "Network"
+      ]
+    }
+  ],
+  "_meta": {
+    "count": 3
+  }
+})";
+    string string_test_table_true =\
+R"(|---------------|--------|-----|---------|
+| name          | group  |avg  | debt    |
+|---------------|--------|-----|---------|
+| Ivanov Petr   | 1      |4.25 | null    |
+|---------------|--------|-----|---------|
+| Sidorov Ivan  | 31     |4    | C++     |
+|---------------|--------|-----|---------|
+| Pertov Nikita | IU8-31 |3.33 | 3 items |
+|---------------|--------|-----|---------|
+
+)";
+    JsonParser j;
+    j.parse_string_to_json(string_test_true);
+    j.reserving_vector_items();
+    j.maxLength();
+    j.enter();
+    j.table_print();
+    string table_res = j.get_table_final();
+    EXPECT_EQ(string_test_table_true, table_res);
+}
+
