@@ -9,6 +9,7 @@ bool JsonParser::file_opening(const string& jsonPath) {
     } else {
         cout << "Json файл по адресу " + jsonPath + " открыт удачно\n";
         file >> data;
+//        file.close();
         return true;
     }
 }
@@ -33,7 +34,7 @@ void JsonParser::reserving_vector_items() {
     itemsNum = data["_meta"]["count"];
 //    vec.reserve(static_cast<int>(itemsNum));
     data["items"].get_to(vec);
-    students.reserve(static_cast<int>(itemsNum));
+//    students.reserve(static_cast<int>(itemsNum));
 }
 bool JsonParser::file_equalityning() {
     reserving_vector_items();
@@ -84,45 +85,46 @@ int JsonParser::get_gMax() const {
 int JsonParser::get_dMax() const {
     return dMax;
 }
+any JsonParser::get_enter_group(const int& num) {
+    if (vec.at(num)["group"].is_string()){
+        return string{vec[num]["group"]};
+    } else if (vec.at(num)["group"].is_number_integer()) {
+        return static_cast<int>(vec[num]["group"]);
+    } else {
+        throw runtime_error("Неверный тип данных в поле group.");
+    }
+}
+any JsonParser::get_enter_avg(const int &num) {
+    bool aB1 = vec.at(num)["avg"].is_number_float();
+    bool aB2 = vec.at(num)["avg"].is_number_integer();
+    bool aB = aB1 || aB2;
+    if (aB){
+        return static_cast<double>(vec[num]["avg"]);
+    } else if (vec.at(num)["avg"].is_string()){
+        return string{vec[num]["avg"]};
+    } else {
+        throw runtime_error("Неверный тип данных в поле avg.");
+    }
+}
+
+any JsonParser::get_enter_debt(const int &num) {
+    if (vec.at(num)["debt"].is_string()) {
+        return string{vec[num]["debt"]};
+    } else if (vec.at(num)["debt"].is_null()) {
+        return string{"null"};
+    } else if (vec.at(num)["debt"].is_array()) {
+        dNum = vec[num]["debt"].size();
+        return string{" "};
+    } else {
+        throw runtime_error("Неверный тип данных в поле debt.");
+    }
+}
 bool JsonParser::enter() {
     for (int i=0; i != itemsNum; i++){
-        vec[i]["name"].get_to(students[i].Name);
-        if (vec.at(i)["group"].is_string()){
-            string gS;
-            vec[i]["group"].get_to(gS);
-            students[i].Group = string{gS};
-        } else if (vec.at(i)["group"].is_number_integer()) {
-            int gI;
-            vec[i]["group"].get_to(gI);
-            students[i].Group = static_cast<int>(gI);
-        } else {
-            throw runtime_error("Неверный тип данных в поле group.");
-        }
-        bool aB1 = vec.at(i)["avg"].is_number_float();
-        bool aB2 = vec.at(i)["avg"].is_number_integer();
-        bool aB = aB1 || aB2;
-        if (aB){
-            double aD;
-            vec[i]["avg"].get_to(aD);
-            students[i].Avg = static_cast<double>(aD);
-        } else if (vec.at(i)["avg"].is_string()){
-            string aS;
-            vec[i]["avg"].get_to(aS);
-            students[i].Avg = string{aS};
-        } else {
-            throw runtime_error("Неверный тип данных в поле avg.");
-        }
-        if (vec.at(i)["debt"].is_string()) {
-            string dS;
-            vec[i]["debt"].get_to(dS);
-            students[i].Debt = string{dS};
-        } else if (vec.at(i)["debt"].is_null()) {
-            students[i].Debt = string{"null"};
-        } else if (vec.at(i)["debt"].is_array()) {
-            dNum = vec.at(i)["debt"].size();
-        } else {
-            throw runtime_error("Неверный тип данных в поле debt.");
-        }
+        students.push_back({vec[i]["name"],
+                            get_enter_group(i),
+                            get_enter_avg(i),
+                            get_enter_debt(i)});
     }
     return true;
 }
@@ -191,15 +193,4 @@ void JsonParser::table_print() {
 string JsonParser::get_table_final() {
     return table_final.str();
 }
-//
-//int main(){
-//    JsonParser j;
-//    string jsonPath = "../sources/Students.json";
-//    j.file_opening(jsonPath);
-//    j.file_emptynis();
-//    j.file_arrayning();
-//    j.file_equalityning();
-//    j.maxLength();
-//    j.enter();
-//    j.table_print();
-//}
+

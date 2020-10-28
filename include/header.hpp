@@ -61,6 +61,12 @@ public:
 
     int get_dMax() const;
 
+    any get_enter_group(const int& num);
+
+    any get_enter_avg(const int& num);
+
+    any get_enter_debt(const int& num);
+
     bool enter();
 
     void table_print();

@@ -6,6 +6,7 @@
 TEST(Example, EmptyTest) {
     EXPECT_TRUE(true);
 }
+//Correct_File
 TEST(Check_Work_Of_File, Opening) {
     string jsonPath_test_true = "../sources/Students.json";
     JsonParser j;
@@ -120,7 +121,7 @@ R"({
     bool statement = j.file_equalityning();
     EXPECT_TRUE(statement);
 }
-//Errors
+//Errors_File
 TEST(Check_Errors_Of_File, Opening_bad) {
     string jsonPath_test_false = "../sources/Students_bad.jso";
     string err_res = "Не удалось открыть json файл";
@@ -283,6 +284,216 @@ R"({
     bool statement = j.enter();
     EXPECT_TRUE(statement);
 }
+//Struct_False
+TEST(Check_Struct_False_Variants, Check_group) {
+    string string1_test_false =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": 10.39,
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": "C++"
+    }
+  ],
+  "_meta": {
+    "count": 2
+  }
+})";
+    string string2_test_false =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": [
+        "1",
+        "2",
+        "3"
+      ],
+      "avg": 4,
+      "debt": "C++"
+    }
+  ],
+  "_meta": {
+    "count": 2
+  }
+})";
+    string string3_test_false =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": null,
+      "avg": 4,
+      "debt": "C++"
+    }
+  ],
+  "_meta": {
+    "count": 2
+  }
+})";
+    JsonParser j;
+    string err_res = "Неверный тип данных в поле group.";
+    j.parse_string_to_json(string1_test_false);
+    j.reserving_vector_items();
+    j.maxLength();
+    try{
+        j.enter();
+    } catch (std::runtime_error& error) {
+        EXPECT_EQ(error.what(), err_res);
+    }
+    j.parse_string_to_json(string2_test_false);
+    try{
+        j.enter();
+    } catch (std::runtime_error& error) {
+        EXPECT_EQ(error.what(), err_res);
+    }
+    j.parse_string_to_json(string3_test_false);
+    try{
+        j.enter();
+    } catch (std::runtime_error& error) {
+        EXPECT_EQ(error.what(), err_res);
+    }
+}
+TEST(Check_Struct_False_Variants, Check_avg) {
+    string string1_test_false =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": [
+        "4",
+        "4.34",
+        "4.12"
+      ],
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": "C++"
+    }
+  ],
+  "_meta": {
+    "count": 2
+  }
+})";
+    string string2_test_false =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": null,
+      "debt": "C++"
+    }
+  ],
+  "_meta": {
+    "count": 2
+  }
+})";
+    JsonParser j;
+    string err_res = "Неверный тип данных в поле avg.";
+    j.parse_string_to_json(string1_test_false);
+    j.reserving_vector_items();
+    j.maxLength();
+    try{
+        j.enter();
+    } catch (std::runtime_error& error) {
+        EXPECT_EQ(error.what(), err_res);
+    }
+    j.parse_string_to_json(string2_test_false);
+    try{
+        j.enter();
+    } catch (std::runtime_error& error) {
+        EXPECT_EQ(error.what(), err_res);
+    }
+}
+TEST(Check_Struct_False_Variants, Check_debt) {
+    string string1_test_false =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": 2.5
+    }
+  ],
+  "_meta": {
+    "count": 2
+  }
+})";
+    string string2_test_false =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": 2
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": "C++"
+    }
+  ],
+  "_meta": {
+    "count": 2
+  }
+})";
+    JsonParser j;
+    string err_res = "Неверный тип данных в поле debt.";
+    j.parse_string_to_json(string1_test_false);
+    j.reserving_vector_items();
+    j.maxLength();
+    try{
+        j.enter();
+    } catch (std::runtime_error& error) {
+        EXPECT_EQ(error.what(), err_res);
+    }
+    j.parse_string_to_json(string2_test_false);
+    try{
+        j.enter();
+    } catch (std::runtime_error& error) {
+        EXPECT_EQ(error.what(), err_res);
+    }
+}
+//Table
 TEST(Check_Work_Of_Print_Table, Check_Printable_Table) {
     string string_test_true =\
 R"({
