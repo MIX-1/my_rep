@@ -8,9 +8,43 @@ TEST(Example, EmptyTest) {
 }
 //Correct_File
 TEST(Check_Work_Of_File, Opening) {
-    string jsonPath_test_true = "../sources/Students.json";
+    string string_test_true =\
+R"({
+  "items": [
+    {
+      "name": "Ivanov Petr",
+      "group": "1",
+      "avg": "4.25",
+      "debt": null
+    },
+    {
+      "name": "Sidorov Ivan",
+      "group": 31,
+      "avg": 4,
+      "debt": "C++"
+    },
+    {
+      "name": "Pertov Nikita",
+      "group": "IU8-31",
+      "avg": 3.33,
+      "debt": [
+        "C++",
+        "Linux",
+        "Network"
+      ]
+    }
+  ],
+  "_meta": {
+    "count": 3
+  }
+})";
+    string jsonFile_test_true = "Students_test.json";
+    std :: ofstream students_test;
+    students_test.open(jsonFile_test_true);
+    students_test << string_test_true;
+    students_test.close();
     JsonParser j;
-    bool statement = j.file_opening(jsonPath_test_true);
+    bool statement = j.file_opening(jsonFile_test_true);
     EXPECT_TRUE(statement);
 }
 TEST(Check_Work_Of_File, Emptynis) {

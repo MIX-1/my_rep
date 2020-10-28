@@ -9,7 +9,7 @@ bool JsonParser::file_opening(const string& jsonPath) {
     } else {
         cout << "Json файл по адресу " + jsonPath + " открыт удачно\n";
         file >> data;
-//        file.close();
+        file.close();
         return true;
     }
 }
