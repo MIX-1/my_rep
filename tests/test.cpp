@@ -270,7 +270,7 @@ R"({
 })";
     JsonParser j;
     j.parse_string_to_json(string_test_true);
-    j.reserving_vector_items();
+    j.extraction_data_from_json();
     j.maxLength();
     int nMax_test = j.get_nMax();
     int gMax_test = j.get_gMax();
@@ -313,7 +313,7 @@ R"({
 })";
     JsonParser j;
     j.parse_string_to_json(string_test_true);
-    j.reserving_vector_items();
+    j.extraction_data_from_json();
     j.maxLength();
     bool statement = j.enter();
     EXPECT_TRUE(statement);
@@ -387,7 +387,7 @@ R"({
     JsonParser j;
     string err_res = "Неверный тип данных в поле group.";
     j.parse_string_to_json(string1_test_false);
-    j.reserving_vector_items();
+    j.extraction_data_from_json();
     j.maxLength();
     try{
         j.enter();
@@ -455,7 +455,7 @@ R"({
     JsonParser j;
     string err_res = "Неверный тип данных в поле avg.";
     j.parse_string_to_json(string1_test_false);
-    j.reserving_vector_items();
+    j.extraction_data_from_json();
     j.maxLength();
     try{
         j.enter();
@@ -513,7 +513,7 @@ R"({
     JsonParser j;
     string err_res = "Неверный тип данных в поле debt.";
     j.parse_string_to_json(string1_test_false);
-    j.reserving_vector_items();
+    j.extraction_data_from_json();
     j.maxLength();
     try{
         j.enter();
@@ -573,7 +573,7 @@ R"(|---------------|--------|-----|---------|
 )";
     JsonParser j;
     j.parse_string_to_json(string_test_true);
-    j.reserving_vector_items();
+    j.extraction_data_from_json();
     j.maxLength();
     j.enter();
     j.table_print();

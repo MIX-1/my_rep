@@ -51,7 +51,7 @@ public:
 
     bool file_equalityning();
 
-    void reserving_vector_items();
+    void extraction_data_from_json();
 
     void maxLength();
 

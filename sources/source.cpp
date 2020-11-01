@@ -30,14 +30,12 @@ bool JsonParser::file_arrayning() {
         return true;
     }
 }
-void JsonParser::reserving_vector_items() {
+void JsonParser::extraction_data_from_json() {
     itemsNum = data["_meta"]["count"];
-//    vec.reserve(static_cast<int>(itemsNum));
     data["items"].get_to(vec);
-//    students.reserve(static_cast<int>(itemsNum));
 }
 bool JsonParser::file_equalityning() {
-    reserving_vector_items();
+    extraction_data_from_json();
     if (itemsNum != static_cast<int>(vec.size())){
         throw runtime_error{"Данные в _meta не равны длинне массива items"};
     } else {
