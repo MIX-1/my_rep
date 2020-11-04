@@ -1,5 +1,9 @@
 # Лабораторная работа № 1
 
+| branch | status |
+|--------|--------|
+| master    |[![Build Status](https://travis-ci.org/MIX-1/my_rep.svg?branch=master)](https://travis-ci.org/github/MIX-1/my_rep)|
+
 ## Задание
 
 Реализовать утилиту табличного вывода массива данных, хранящихся в файле формата **JSON**.<br />

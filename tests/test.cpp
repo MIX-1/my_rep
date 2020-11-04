@@ -1,7 +1,7 @@
 // Copyright 2020 MIX-1 <daniloniL1@yandex.ru>
 
 #include <gtest/gtest.h>
-#include "header.hpp"
+#include "JsonParser.hpp"
 
 TEST(Example, EmptyTest) {
     EXPECT_TRUE(true);
@@ -576,7 +576,8 @@ R"(|---------------|--------|-----|---------|
     j.extraction_data_from_json();
     j.maxLength();
     j.enter();
-    j.table_print();
+    std::stringstream ref_stream;
+    j.table_print(ref_stream);
     string table_res = j.get_table_final();
     EXPECT_EQ(string_test_table_true, table_res);
 }

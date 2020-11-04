@@ -1,6 +1,6 @@
 // Copyright 2020 MIX-1 <daniloniL1@yandex.ru>
 
-#include <header.hpp>
+#include <JsonParser.hpp>
 
 bool JsonParser::file_opening(const string& jsonPath) {
     file.open(jsonPath);
@@ -47,7 +47,7 @@ void JsonParser::maxLength() {
         if (vec.at(i)["debt"].is_array()) {
             dNum = vec.at(i)["debt"].size();
             while (dNum){
-                dNum /= 10;
+                dNum /= Ten;
                 dArNum++;
             }
         }
@@ -109,7 +109,7 @@ any JsonParser::get_enter_debt(const int &num) {
     if (vec.at(num)["debt"].is_string()) {
         return string{vec[num]["debt"]};
     } else if (vec.at(num)["debt"].is_null()) {
-        return string{"null"};
+        return nullptr;
     } else if (vec.at(num)["debt"].is_array()) {
         dNum = vec[num]["debt"].size();
         return string{" "};
@@ -118,7 +118,7 @@ any JsonParser::get_enter_debt(const int &num) {
     }
 }
 bool JsonParser::enter() {
-    for (int i=0; i != itemsNum; i++){
+    for (int i=0; i != itemsNum; ++i){
         students.push_back({vec[i]["name"],
                             get_enter_group(i),
                             get_enter_avg(i),
@@ -126,67 +126,51 @@ bool JsonParser::enter() {
     }
     return true;
 }
-void JsonParser::table_print() {
+void JsonParser::table_print(std::ostream& out) {
     std :: stringstream tab;
-    cout << setfill('-') << std :: right << "|" << setw(nMax+3);
-    cout <<"|" << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
-    cout << "|\n" << setfill(' ');
-    tab << setfill('-') << std :: right << "|" << setw(nMax+3);
-    tab <<"|" << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
-    tab << "|\n" << setfill(' ');
-    cout << std :: left << "| " << setw(nMax) << "name" << " | " << setw(gMax);
-    cout << "group"<< " |" << setw(4) << "avg"<< " | " << setw(dMax);
-    cout << "debt" << " |\n";
+    tab << setfill('-') << std :: right << "|" << setw(nMax+Three);
+    tab <<"|" << setw(gMax+Three) << "|" << setw(Avg_name_space) << "|";
+    tab << setw(dMax+Avg_space) << "|\n" << setfill(' ');
     tab << std :: left << "| " << setw(nMax) << "name" << " | " << setw(gMax);
-    tab << "group"<< " |" << setw(4) << "avg"<< " | " << setw(dMax);
+    tab << "group"<< " |" << setw(Avg_space) << "avg"<< " | " << setw(dMax);
     tab << "debt" << " |\n";
-    for (int i=0; i < itemsNum; i++) {
-        cout << setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
-        cout << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4) << "|\n";
-        cout << setfill(' ');
-        cout << std :: left << "| "<< setw(nMax) << students[i].Name << " | ";
-        tab << setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
-        tab << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4) << "|\n";
-        tab << setfill(' ');
+    for (int i=0; i < itemsNum; ++i) {
+        tab << setfill('-') << std :: right << "|" << setw(nMax+Three) <<"|";
+        tab << setw(gMax+Three) << "|" << setw(Avg_name_space) << "|";
+        tab << setw(dMax+Avg_space) << "|\n" << setfill(' ');
         tab << std :: left << "| "<< setw(nMax) << students[i].Name << " | ";
         if (vec.at(i)["group"].is_string()) {
-            cout << setw(gMax) << any_cast<string>(students[i].Group) << " |";
             tab << setw(gMax) << any_cast<string>(students[i].Group) << " |";
         } else if (vec.at(i)["group"].is_number_integer()) {
-            cout << setw(gMax) << any_cast<int>(students[i].Group) << " |";
             tab << setw(gMax) << any_cast<int>(students[i].Group) << " |";
         }
         bool aB1 = vec.at(i)["avg"].is_number_float();
         bool aB2 = vec.at(i)["avg"].is_number_integer();
         bool aB = aB1 || aB2;
         if (aB){
-            cout << std ::  setprecision(3) << setw(4);
-            cout << any_cast<double>(students[i].Avg) << " | ";
-            tab << std ::  setprecision(3) << setw(4);
+            tab << std ::  setprecision(Three) << setw(Avg_space);
             tab << any_cast<double>(students[i].Avg) << " | ";
         } else if (vec.at(i)["avg"].is_string()) {
-            cout << std ::  setprecision(3) << setw(4);
-            cout << any_cast<string>(students[i].Avg) << " | ";
-            tab << std ::  setprecision(3) << setw(4);
+            tab << std ::  setprecision(Three) << setw(Avg_space);
             tab << any_cast<string>(students[i].Avg) << " | ";
         }
-        if (vec.at(i)["debt"].is_string() || vec.at(i)["debt"].is_null()) {
-            cout << setw(dMax) << any_cast<string>(students[i].Debt) << " |\n";
+        if (vec.at(i)["debt"].is_string()) {
             tab << setw(dMax) << any_cast<string>(students[i].Debt) << " |\n";
         } else if (vec.at(i)["debt"].is_array()) {
-            cout << setw(dArNum) << dNum << setw(dMax-dArNum);
-            cout << " items" << " |\n";
             tab << setw(dArNum) << dNum << setw(dMax-dArNum);
             tab << " items" << " |\n";
+        } else if (vec.at(i)["debt"].is_null()){
+            tab << setw(dMax) << "null" << " |\n";
         }
+
     }
-    cout << std :: setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
-    cout << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
-    cout << "|\n" << std :: setfill(' ');
-    tab << std :: setfill('-') << std :: right << "|" << setw(nMax+3) <<"|";
-    tab << setw(gMax+3) << "|" << setw(6) << "|" << setw(dMax+4);
-    tab << "|\n" << std :: setfill(' ');
+    tab << std :: setfill('-') << std :: right << "|";
+    tab << setw(nMax+Three) <<"|";
+    tab << setw(gMax+Three) << "|" << setw(Avg_name_space) << "|";
+    tab << setw(dMax+Avg_space) << "|\n" << std :: setfill(' ');
+    cout << tab.str();
     table_final << tab.str() << std :: endl;
+    out << tab.str();
 }
 string JsonParser::get_table_final() {
     return table_final.str();

@@ -4,12 +4,13 @@
 #define INCLUDE_HEADER_HPP_
 #include <any>
 #include <string>
-#include "iostream"
+#include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+
 using json = nlohmann::json;
 using string = std :: string;
 using any = std :: any;
@@ -38,6 +39,10 @@ private:
     int dNum = 0;
     int dArNum = 0;
     int dMax = 6;
+    const int Ten = 10;
+    const int Three = 3;
+    const int Avg_name_space = 6;
+    const int Avg_space = 4;
     std :: stringstream table_final;
 
 public:
@@ -69,7 +74,7 @@ public:
 
     bool enter();
 
-    void table_print();
+    void table_print(std::ostream& out);
 
     string get_table_final();
 };
