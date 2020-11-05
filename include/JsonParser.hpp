@@ -1,7 +1,7 @@
 // Copyright 2020 MIX-1 <danilonil1@yandex.ru>
 
-#ifndef INCLUDE_HEADER_HPP_
-#define INCLUDE_HEADER_HPP_
+#ifndef INCLUDE_JSONPARSER_HPP_
+#define INCLUDE_JSONPARSER_HPP_
 #include <any>
 #include <string>
 #include <iostream>
@@ -78,4 +78,4 @@ public:
 
     string get_table_final();
 };
-#endif // INCLUDE_HEADER_HPP_
+#endif // INCLUDE_JSONPARSER_HPP_

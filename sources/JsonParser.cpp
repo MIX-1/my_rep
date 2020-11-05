@@ -159,10 +159,9 @@ void JsonParser::table_print(std::ostream& out) {
         } else if (vec.at(i)["debt"].is_array()) {
             tab << setw(dArNum) << dNum << setw(dMax-dArNum);
             tab << " items" << " |\n";
-        } else if (vec.at(i)["debt"].is_null()){
+        } else if (vec.at(i)["debt"].is_null()) {
             tab << setw(dMax) << "null" << " |\n";
         }
-
     }
     tab << std :: setfill('-') << std :: right << "|";
     tab << setw(nMax+Three) <<"|";
