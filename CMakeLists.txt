@@ -38,7 +38,7 @@ add_library(lab-01-parser STATIC
 
 add_executable(tests
         sources/JsonParser.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/tests/JsonParser_test.cpp
         )
 
 target_include_directories(lab-01-parser
