@@ -44,6 +44,15 @@ private:
     const int Avg_name_space = 6;
     const int Avg_space = 4;
     std :: stringstream table_final;
+    const string FieldName[7] = {
+            "items",
+            "name",
+            "group",
+            "avg",
+            "debt",
+            "_meta",
+            "count"
+    };
 
 public:
     bool file_opening(const string& jsonPath);

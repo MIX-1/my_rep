@@ -158,7 +158,7 @@ R"({
 //Errors_File
 TEST(Check_Errors_Of_File, Opening_bad) {
     string jsonPath_test_false = "../sources/Students_bad.jso";
-    string err_res = "Не удалось открыть json файл";
+    string err_res = "Couldn't open json file";
     JsonParser j;
     try{
         j.file_opening(jsonPath_test_false);
@@ -170,7 +170,7 @@ TEST(Check_Errors_Of_File, Emptynis_bad) {
     string string_test_false =\
 R"({
 })";
-    string err_res = "Ваш json файл оказался пустым";
+    string err_res = "Your json file is empty";
     JsonParser j;
     j.parse_string_to_json(string_test_false);
     try{
@@ -187,7 +187,7 @@ R"({
     "count": 3
   }
 })";
-    string err_res = "Поле items не является массивом";
+    string err_res = "The items field is not an array";
     JsonParser j;
     j.parse_string_to_json(string_test_false);
     try{
@@ -227,7 +227,8 @@ R"({
     "count": 4
   }
 })";
-    string err_res = "Данные в _meta не равны длинне массива items";
+    string err_res = "The data in _meta is not"
+                     " equal to the length of the items array";
     JsonParser j;
     j.parse_string_to_json(string_test_false);
     try{
@@ -385,7 +386,7 @@ R"({
   }
 })";
     JsonParser j;
-    string err_res = "Неверный тип данных в поле group.";
+    string err_res = "Invalid data type in the group field";
     j.parse_string_to_json(string1_test_false);
     j.extraction_data_from_json();
     j.maxLength();
@@ -453,7 +454,7 @@ R"({
   }
 })";
     JsonParser j;
-    string err_res = "Неверный тип данных в поле avg.";
+    string err_res = "Invalid data type in the avg field";
     j.parse_string_to_json(string1_test_false);
     j.extraction_data_from_json();
     j.maxLength();
@@ -511,7 +512,7 @@ R"({
   }
 })";
     JsonParser j;
-    string err_res = "Неверный тип данных в поле debt.";
+    string err_res = "Invalid data type in the debt field";
     j.parse_string_to_json(string1_test_false);
     j.extraction_data_from_json();
     j.maxLength();
