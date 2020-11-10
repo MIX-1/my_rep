@@ -2,6 +2,7 @@
 
 #ifndef INCLUDE_JSONPARSER_HPP_
 #define INCLUDE_JSONPARSER_HPP_
+#pragma once
 #include <any>
 #include <string>
 #include <iostream>
@@ -31,30 +32,38 @@ class JsonParser {
 private:
     std::ifstream file;
     json data;
-    int itemsNum = 0;
+    int itemsNum;
     std :: vector <json> vec;
     std :: vector <Students> students;
-    int nMax = 0;
-    int gMax = 5;
-    int dNum = 0;
-    int dArNum = 0;
-    int dMax = 6;
-    const int Ten = 10;
-    const int Three = 3;
-    const int Avg_name_space = 6;
-    const int Avg_space = 4;
+    int nMax;
+    int gMax;
+    int dNum;
+    int dArNum;
+    int dMax;
+    const int Ten;
+    const int Three;
+    const int Avg_name_space;
+    const int Avg_space;
     std :: stringstream table_final;
-    const string FieldName[7] = {
-            "items",
-            "name",
-            "group",
-            "avg",
-            "debt",
-            "_meta",
-            "count"
-    };
+    const string FieldName[7];
 
 public:
+
+    JsonParser ()
+    : itemsNum(0),
+    nMax(0),
+    gMax(5),
+    dNum(0),
+    dArNum(0),
+    dMax(6),
+    Ten{10},
+    Three{3},
+    Avg_name_space{6},
+    Avg_space{4},
+    FieldName{"items", "name", "group", "avg", "debt", "_meta", "count"}
+    {
+    }
+
     bool file_opening(const string& jsonPath);
 
     void parse_string_to_json(const string& string_test);
