@@ -48,8 +48,7 @@ private:
     const string FieldName[7];
 
 public:
-
-    JsonParser ()
+    JsonParser()
     : itemsNum(0),
     nMax(0),
     gMax(5),
